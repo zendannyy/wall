@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'styles.css' %}">
+<!--      <link rel="stylesheet" href="{% static 'styles.css' %}{% now 'U' %}">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+  <h1>The Wall</h1>
+    <div class="welcome">
+    <h4>Welcome {{ request.session.first_name }} </h4>
+        <a href="/destroy" class="log_out">Log Out </a>
+    </div>
+
+  <div class="post" style="margin-top:30px">
+      <form action="/message" method="POST">
+<!--      <form action="/wall/create" method="POST">-->
+            {% csrf_token %}
+<!--            <textarea type="text" class="message_box" name="message" placeholder="Post a message..."></textarea>-->
+            <label>Post a Message </label> <input type="text" name="message">
+            <button type="submit">Post a message</button>
+        </form>
+  </div>
+<div class="msg">
+     <h3>All Messages</h3>
+    <!--    iterate through all messages and output user details -->
+    {% for message in messages %}
+<!--    right now, this is printing User object (8)-->
+        {{ message.user.first_name }} says:
+         <p>{{ message.message_text }}</p>
+<!--    this message.id is printing User object (8)-->
+        <a href="wall/{{message.id}}"></a>
+    {% endfor %}
+</div>
+
+<div class="comment" style="margin-top:50px">
+    <h3>All Comments</h3>
+    <form action="/comment" method="POST">
+<!--    had to change to comment-->
+        {% csrf_token %}
+<!--    {% for message in messages %}-->
+
+<!--        <p>{{ message.message_text }}</p>-->
+        {% for comment in message.comments.all %}
+            {{ message.user.first_name }} says:
+            <p>{{ comment.comment_text }}</p>
+
+        {% endfor %}
+<!--    {% endfor %}-->
+        <input type="hidden" name="message_id" value="{{ message.id }}">
+        <textarea type="text" class="message_box" name="comment" placeholder="Post a comment.. "></textarea>
+<!--            <a href="/comment/{{message.id}}">Comment</a>-->
+        <button type="submit">Comment</button>
+    </form>
+</div>
+</body>
+</html>

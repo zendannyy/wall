@@ -1,0 +1,25 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    }
+
+
+body{
+    background-image: url('cover.jpeg');
+    background-size:30em;
+}
+
+h1{
+    text-align: center;
+}
+
+/* spacing out text */
+.welcome{
+    margin-top: 40px;
+}
+
+.msg h3{
+    margin-top: 100px;
+    width: fit-content;
+}
+
